@@ -1,138 +1,154 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Puzzle Solver</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-      body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(to bottom right, #d4f1e5, #cbeaed);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-      }
+        body {
+            background: radial-gradient(circle, #023e8a, #07071c);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
 
-      .container {
-        background: white;
-        padding: 25px;
-        border-radius: 12px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-        text-align: center;
-        width: 400px;
-      }
+        .container {
+            background: rgba(15, 15, 45, 0.9);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 400px;
+        }
 
-      h2 {
-        color: #064e3b;
-        margin-bottom: 20px;
-      }
+        h2 {
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-size: 24px;
+        }
 
-      .input-group {
-        display: flex;
-        align-items: center;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        overflow: hidden;
-        margin-bottom: 15px;
-      }
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+            font-size: 14px;
+            color: #ccc;
+        }
 
-      .input-group input {
-        border: none;
-        padding: 10px;
-        flex: 1;
-        outline: none;
-      }
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
 
-      .input-group span {
-        background: #e5e7eb;
-        padding: 10px;
-        color: #6b7280;
-        font-weight: bold;
-      }
+        .input-group input {
+            background: transparent;
+            border: none;
+            color: white;
+            flex: 1;
+            outline: none;
+            font-size: 16px;
+        }
 
-      select,
-      button {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        margin-top: 10px;
-        font-size: 16px;
-      }
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
 
-      select {
-        background: #f9fafb;
-        border: 1px solid #ccc;
-      }
+        select, button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 16px;
+            border: none;
+        }
 
-      button {
-        background-color: #047857;
-        color: white;
-        cursor: pointer;
-      }
+        select {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+        }
 
-      button:hover {
-        background-color: #065f46;
-      }
+        button {
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-      p {
-        margin-top: 15px;
-        font-weight: bold;
-        color: #333;
-      }
+        button:hover {
+            background: #0056b3;
+        }
+
+        p {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #ccc;
+        }
+        #method {
+            background: rgba(255, 255, 255, 0.1);
+            color: #219ebc;
+            outline: none;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="container">
-      <h2> Resolución del Puzzle</h2>
-      <label for="">Ingresa le estado inicial (ejemplo: 4,3,2,1)</label>
-      <div class="input-group">
-        <input type="text" id="start" placeholder="separado por comas" />
-      </div>
+        <h2>Resolución del Puzzle</h2>
 
-      <label for="">Ingresa le estado final (ejemplo: 1,2,3,4)</label>
+        <label for="start">Ingresa el estado inicial (ejemplo: 4,3,2,1)</label>
+        <div class="input-group">
+            <input type="text" id="start" placeholder="Separado por comas" />
+        </div>
 
-      <div class="input-group">
-        <input type="text" id="goal" placeholder="separado por comas" />
-      </div>
+        <label for="goal">Ingresa el estado final (ejemplo: 1,2,3,4)</label>
+        <div class="input-group">
+            <input type="text" id="goal" placeholder="Separado por comas" />
+        </div>
 
-      <select id="method">
-        <option value="BFS">BFS</option>
-        <option value="DFS">DFS</option>
-        <option value="DFS_REC">DFS Recursivo</option>
-      </select>
+        <select id="method">
+            <option value="BFS">BFS</option>
+            <option value="DFS">DFS</option>
+            <option value="DFS_REC">DFS Recursivo</option>
+        </select>
 
-      <button onclick="solvePuzzle()">Solución</button>
-      <p id="solution"></p>
+        <button onclick="solvePuzzle()">Solución</button>
+        <p id="solution"></p>
     </div>
 
     <script>
-      function solvePuzzle() {
-        const start = document.getElementById("start").value.split(",").map(Number);
-        const goal = document.getElementById("goal").value.split(",").map(Number);
-        const method = document.getElementById("method").value;
+        function solvePuzzle() {
+            const start = document.getElementById("start").value.split(",").map(Number);
+            const goal = document.getElementById("goal").value.split(",").map(Number);
+            const method = document.getElementById("method").value;
 
-        fetch("http://127.0.0.1:5000/solve", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ start, goal, method }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            document.getElementById("solution").innerText = "Solution: " + JSON.stringify(data.solution);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-            document.getElementById("solution").innerText = "Error solving the puzzle";
-          });
-      }
+            fetch("http://127.0.0.1:5000/solve", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ start, goal, method }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("solution").innerText = "Solution: " + JSON.stringify(data.solution);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("solution").innerText = "Error solving the puzzle";
+            });
+        }
     </script>
-  </body>
+</body>
 </html>
