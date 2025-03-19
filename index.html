@@ -13,98 +13,110 @@
 
       body {
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        background: linear-gradient(to bottom right, #d4f1e5, #cbeaed);
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 100vh; /* Asegura que la caja siempre esté en el centro */
+        min-height: 100vh;
       }
 
       .container {
         background: white;
-        width: 350px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
         text-align: center;
+        width: 400px;
       }
 
       h2 {
-        color: #333;
+        color: #064e3b;
+        margin-bottom: 20px;
+      }
+
+      .input-group {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        overflow: hidden;
         margin-bottom: 15px;
       }
 
-      label {
-        font-weight: bold;
-        display: block;
-        margin-top: 10px;
-        text-align: left;
+      .input-group input {
+        border: none;
+        padding: 10px;
+        flex: 1;
+        outline: none;
       }
 
-      input,
-      select {
+      .input-group span {
+        background: #e5e7eb;
+        padding: 10px;
+        color: #6b7280;
+        font-weight: bold;
+      }
+
+      select,
+      button {
         width: 100%;
-        padding: 8px;
-        margin-top: 5px;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        margin-top: 10px;
+        font-size: 16px;
+      }
+
+      select {
+        background: #f9fafb;
         border: 1px solid #ccc;
-        border-radius: 5px;
       }
 
       button {
-        background-color: #28a745;
+        background-color: #047857;
         color: white;
-        border: none;
-        padding: 10px;
-        margin-top: 15px;
         cursor: pointer;
-        border-radius: 5px;
-        font-size: 16px;
-        width: 100%;
       }
 
       button:hover {
-        background-color: #218838;
+        background-color: #065f46;
       }
 
-      #solution {
+      p {
         margin-top: 15px;
         font-weight: bold;
         color: #333;
-        word-wrap: break-word;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h2>Solucionador de Puzzle Lineal</h2>
-      <label>Estado Inicial (ejemplo: 1,2,3):</label>
-      <input type="text" id="start" placeholder="Ingrese el estado inicial" />
+      <h2> Resolución del Puzzle</h2>
+      <label for="">Ingresa le estado inicial (ejemplo: 4,3,2,1)</label>
+      <div class="input-group">
+        <input type="text" id="start" placeholder="separado por comas" />
+      </div>
 
-      <label>Estado Objetivo (ejemplo: 3,2,1):</label>
-      <input type="text" id="goal" placeholder="Ingrese el estado objetivo" />
+      <label for="">Ingresa le estado final (ejemplo: 1,2,3,4)</label>
 
-      <label>Método:</label>
+      <div class="input-group">
+        <input type="text" id="goal" placeholder="separado por comas" />
+      </div>
+
       <select id="method">
         <option value="BFS">BFS</option>
         <option value="DFS">DFS</option>
         <option value="DFS_REC">DFS Recursivo</option>
       </select>
 
-      <button onclick="solvePuzzle()">Resolver</button>
-      <h3>Solución:</h3>
+      <button onclick="solvePuzzle()">Log in</button>
       <p id="solution"></p>
     </div>
 
     <script>
       function solvePuzzle() {
-        const start = document
-          .getElementById("start")
-          .value.split(",")
-          .map(Number);
-        const goal = document
-          .getElementById("goal")
-          .value.split(",")
-          .map(Number);
+        const start = document.getElementById("start").value.split(",").map(Number);
+        const goal = document.getElementById("goal").value.split(",").map(Number);
         const method = document.getElementById("method").value;
 
         fetch("http://127.0.0.1:5000/solve", {
@@ -114,13 +126,11 @@
         })
           .then((response) => response.json())
           .then((data) => {
-            document.getElementById("solution").innerText =
-              "Solución: " + JSON.stringify(data.solution);
+            document.getElementById("solution").innerText = "Solution: " + JSON.stringify(data.solution);
           })
           .catch((error) => {
             console.error("Error:", error);
-            document.getElementById("solution").innerText =
-              "Error al resolver el puzzle";
+            document.getElementById("solution").innerText = "Error solving the puzzle";
           });
       }
     </script>
